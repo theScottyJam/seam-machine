@@ -12,6 +12,7 @@
     "@typescript-eslint/no-unused-vars": [0],
     "@typescript-eslint/array-type": [0],
     "prefer-rest-params": [0],
+    "curly": [2, "multiline", "consistent"],
     "import/extensions": [
       "error",
       "always"

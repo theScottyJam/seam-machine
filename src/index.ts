@@ -1,6 +1,4 @@
-import { helper } from './helper.js';
-
-export function main(): number {
-  console.log('Hello World!');
-  return helper();
-}
+export { Dependency } from './seams/index.js';
+export { VerifiableResult, type ResultVerifier } from './control/index.js';
+export type { AltImplementationOf } from '#src/types.js';
+export type { InterfaceOfFns } from '#src/utilityTypes.js';
