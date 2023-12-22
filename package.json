@@ -6,17 +6,29 @@
   "type": "module",
   "keywords": [],
   "files": [
-    "/build"
+    "/build",
+    "/build-cjs"
   ],
-  "main": "build/src/index.js",
   "imports": {
     "#src/*": "./build/src/*"
   },
+  "exports": {
+    ".": {
+      "import": "./build/src/index.js",
+      "require": "./build-cjs/src/index.js"
+    },
+    "./control": {
+      "import": "./build/src/control/index.js",
+      "require": "./build-cjs/src/control/index.js"
+    }
+  },
   "scripts": {
-    "prepublishOnly": "source $HOME/.nvm/nvm.sh && npm run lint && npm test && npm run build",
-    "build": "rm -rf ./build && npx tsc --build tsconfig.json",
-    "test": "npm run build && mocha",
-    "test:watch": "nodemon --watch ./src --watch ./test --exec 'npm run build && mocha'",
+    "prepublishOnly": "source $HOME/.nvm/nvm.sh && npm run lint && npm test && npm run test:cjs",
+    "build": "rm -rf ./build && npx tsc --build tsconfig.json && echo '{\"type\": \"module\", \"imports\": { \"#src/*\": \"./src/*\" }}' > build/package.json",
+    "build:cjs": "rm -rf ./build-cjs && npx tsc --build tsconfig.cjs.json && echo '{\"type\": \"commonjs\", \"imports\": { \"#src/*\": \"./src/*\" }}' > build-cjs/package.json",
+    "test": "npm run build && mocha ./build/test/*.test.js",
+    "test:watch": "nodemon --watch ./src --watch ./test --exec 'npm run build && mocha ./build/test/*.test.js'",
+    "test:cjs": "npm run build:cjs && mocha ./build-cjs/test/*.test.js",
     "lint": "eslint test/*.ts src/*.ts",
     "lint:fix": "eslint test/*.ts src/*.ts --fix"
   },
