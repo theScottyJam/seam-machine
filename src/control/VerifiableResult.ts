@@ -10,11 +10,11 @@ export let verifyTheVerifiableResult: <T>(self: VerifiableResult<T>, realResult:
 
 export class VerifiableResult<T> {
   #result;
-  verifier: ResultVerifier;
+  #verifier: ResultVerifier;
   constructor(key: typeof constructorSentinel, result: T, verifier: ResultVerifier) {
     assert(key === constructorSentinel, `This FakeResult constructor is private`);
     this.#result = result;
-    this.verifier = verifier;
+    this.#verifier = verifier;
   }
 
   static {
@@ -24,7 +24,7 @@ export class VerifiableResult<T> {
 
     verifyTheVerifiableResult = <T>(self: VerifiableResult<T>, realResult: T, fnName: string): void => {
       try {
-        self.verifier(self.#result, realResult);
+        self.#verifier(self.#result, realResult);
       } catch (error: any) {
         throw new Error(
           `Invalid fake implementation for ${fnName}() - ` +

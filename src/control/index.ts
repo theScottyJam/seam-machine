@@ -9,7 +9,6 @@ export function setTestMode(): void {
   if (inTestMode) {
     throw new Error('You can only call setTestMode() once.');
   }
-  inTestMode = true;
 
   try {
     setDependencyBehavior(testModeDependencyBehavior);
@@ -20,4 +19,6 @@ export function setTestMode(): void {
       throw error;
     }
   }
+
+  inTestMode = true;
 }

@@ -2,9 +2,7 @@ import type { DependencyBehavior } from '#src/types';
 import type { InterfaceOfFns, ReconstructedFn, StringKeys, StringKeysForAsyncFns } from '#src/utilityTypes';
 
 let dependencyBehavior: DependencyBehavior = {
-  define: (self, fnName, realImplementation) => {
-    return realImplementation
-  },
+  define: (self, fnName, realImplementation) => realImplementation,
   defineSync: (self, fnName, realImplementation) => realImplementation,
 };
 

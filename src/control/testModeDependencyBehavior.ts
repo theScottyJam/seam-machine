@@ -8,6 +8,7 @@ type AnyDependency = Dependency<{}>
 
 type ReplacementEntry<T extends InterfaceOfFns = {}> = { type: 'replace' | 'validate', with: AltImplementationOf<T> } | { type: 'no-op' };
 
+// <-- I could use a weakmap here? or weak refs?
 const dependencyReplacements = new Map<AnyDependency, ReplacementEntry>();
 
 export function replaceDependencyWith<T extends InterfaceOfFns>(dependency: Dependency<T>, replacement: AltImplementationOf<T>): void {
