@@ -1,24 +1,29 @@
-import { DependencyBehaviorAlreadyInUseError, setDependencyBehavior } from '#src/seams/index.js';
-import { testModeDependencyBehavior } from './testModeDependencyBehavior.js';
-export { VerifiableResult, verifyResult, type ResultVerifier } from './VerifiableResult.js';
-export { replaceDependencyWith, validateDependencyReplacement, permitUseOf, reset } from './testModeDependencyBehavior.js';
+import { SeamBehaviorAlreadyInUseError, setSeamBehavior } from '#src/seams/index.js';
+import { testModeSeamBehavior } from './testModeSeamBehavior.js';
+import { assert } from './util.js';
+export { SeamControl } from './testModeSeamBehavior.js';
 
-let inTestMode = false;
+let testModeType: null | 'unit' | 'integration' = null;
 
-export function setTestMode(): void {
-  if (inTestMode) {
+export function setTestMode(testModeType_: 'unit' | 'integration'): void {
+  assert(testModeType_ === 'unit' || testModeType_ === 'integration', 'The testModeType parameter must be set to either "unit" or "integration".');
+  if (testModeType !== null) {
     throw new Error('You can only call setTestMode() once.');
   }
 
   try {
-    setDependencyBehavior(testModeDependencyBehavior);
+    setSeamBehavior(testModeSeamBehavior);
   } catch (error: any) {
-    if (error instanceof DependencyBehaviorAlreadyInUseError) {
-      throw new Error('You must call setTestMode() before you start creating Dependency instances.');
+    if (error instanceof SeamBehaviorAlreadyInUseError) {
+      throw new Error('Instances of Seam were constructed before setTestMode() got called, which is not permitted.');
     } else {
       throw error;
     }
   }
 
-  inTestMode = true;
+  testModeType = testModeType_;
+}
+
+export function getTestModeType() {
+  return testModeType;
 }
