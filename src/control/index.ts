@@ -1,7 +1,7 @@
 import { SeamBehaviorAlreadyInUseError, setSeamBehavior } from '#src/seams/index.js';
 import { testModeSeamBehavior } from './testModeSeamBehavior.js';
 import { assert } from './util.js';
-export { SeamControl } from './testModeSeamBehavior.js';
+export { SeamControl, onAfterEach } from './testModeSeamBehavior.js';
 
 let testModeType: null | 'unit' | 'integration' = null;
 
