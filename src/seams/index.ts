@@ -42,11 +42,11 @@ export class Seam<T extends InterfaceOfFns, const N extends string> {
     Object.defineProperty(this, 'name', { writable: false, value: name });
   }
 
-  define<FnName extends StringKeysForAsyncFns<T>>(fnName: FnName, realImplementation: T[FnName]): ReconstructedFn<T[FnName]> {
+  define<const FnName extends StringKeysForAsyncFns<T>>(fnName: FnName, realImplementation: T[FnName]): ReconstructedFn<T[FnName]> {
     return seamBehavior.define(this, fnName, realImplementation);
   }
 
-  defineSync<FnName extends StringKeys<T>>(fnName: FnName, realImplementation: T[FnName]): ReconstructedFn<T[FnName]> {
+  defineSync<const FnName extends StringKeys<T>>(fnName: FnName, realImplementation: T[FnName]): ReconstructedFn<T[FnName]> {
     return seamBehavior.defineSync(this, fnName, realImplementation);
   }
 
